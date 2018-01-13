@@ -5,5 +5,5 @@ import java.util.List;
 import rx.Observable;
 
 public interface Model {
-    Observable<List<HistoryEvent>> getMemoryDates();
+    Observable<List<HistoryEvent>> retrieveInfo();
 }
