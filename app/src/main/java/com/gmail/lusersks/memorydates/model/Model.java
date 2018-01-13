@@ -2,6 +2,8 @@ package com.gmail.lusersks.memorydates.model;
 
 import android.database.Observable;
 
+import java.util.List;
+
 public interface Model {
-    Observable<String> getMemoryDates();
+    Observable<List<HistoryEvent>> getMemoryDates();
 }
