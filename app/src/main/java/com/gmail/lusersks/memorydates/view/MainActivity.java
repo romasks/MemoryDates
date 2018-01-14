@@ -1,7 +1,9 @@
-package com.gmail.lusersks.memorydates;
+package com.gmail.lusersks.memorydates.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.gmail.lusersks.memorydates.R;
 
 public class MainActivity extends AppCompatActivity {
 

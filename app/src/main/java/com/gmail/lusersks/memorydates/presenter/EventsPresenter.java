@@ -5,12 +5,12 @@ import com.gmail.lusersks.memorydates.model.Model;
 import rx.Subscription;
 import rx.subscriptions.Subscriptions;
 
-public class PresenterImpl implements Presenter {
+public class EventsPresenter implements Presenter {
     private final Model model;
 //    private View view;
     private Subscription subscription = Subscriptions.empty();
 
-    public PresenterImpl(Model model) {
+    public EventsPresenter(Model model) {
         this.model = model;
     }
 
