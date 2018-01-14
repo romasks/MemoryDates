@@ -1,6 +1,6 @@
-package com.gmail.lusersks.memorydates.model;
+package com.gmail.lusersks.memorydates.entity;
 
-class HistoryEvent {
+public class HistoryEvent {
 
     private String type;
     private String name;

@@ -1,4 +1,4 @@
-package com.gmail.lusersks.memorydates.model;
+package com.gmail.lusersks.memorydates.entity;
 
 import java.util.List;
 

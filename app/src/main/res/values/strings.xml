@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MemoryDates</string>
+    <string name="empty_events_list">There are no events on this day</string>
 </resources>

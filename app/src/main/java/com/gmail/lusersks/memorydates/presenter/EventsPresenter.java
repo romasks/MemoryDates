@@ -7,7 +7,7 @@ import rx.subscriptions.Subscriptions;
 
 public class EventsPresenter implements Presenter {
     private final Model model;
-//    private View view;
+//    private IView view;
     private Subscription subscription = Subscriptions.empty();
 
     public EventsPresenter(Model model) {
