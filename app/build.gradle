@@ -26,8 +26,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    //RecyclerView
+    //recyclerview
     compile 'com.android.support:recyclerview-v7:26.1.0'
+
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 
     //rx
     compile 'io.reactivex:rxjava:1.2.0'

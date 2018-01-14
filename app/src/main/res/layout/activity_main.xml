@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <CalendarView
-        android:id="@+id/simple_calendar"
+        android:id="@+id/events_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
