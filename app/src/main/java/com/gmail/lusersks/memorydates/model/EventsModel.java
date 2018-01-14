@@ -11,12 +11,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
-public class ModelImpl implements Model {
+public class EventsModel implements Model {
     private String month;
     private String day;
     private GithubService api;
 
-    ModelImpl(String month, String day) {
+    EventsModel(String month, String day) {
         this.month = month;
         this.day = day;
         this.api = buildApiService();
