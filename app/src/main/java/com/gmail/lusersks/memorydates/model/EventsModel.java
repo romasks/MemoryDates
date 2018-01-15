@@ -16,10 +16,11 @@ public class EventsModel implements Model {
     private String day;
     private GithubService api;
 
-    EventsModel(String month, String day) {
+    public EventsModel(String month, String day) {
         this.month = month;
         this.day = day;
         this.api = buildApiService();
+        System.out.println("### api: " + api);
     }
 
     private GithubService buildApiService() {

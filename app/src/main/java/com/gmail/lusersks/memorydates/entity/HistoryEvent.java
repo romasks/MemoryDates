@@ -7,4 +7,8 @@ public class HistoryEvent {
     private String description;
     private String date;
 
+    @Override
+    public String toString() {
+        return "{ type: " + type + ", name: " + name + ", description: " + description + ", date: " + date + " }";
+    }
 }

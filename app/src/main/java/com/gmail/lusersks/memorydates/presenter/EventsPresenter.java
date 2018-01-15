@@ -1,5 +1,6 @@
 package com.gmail.lusersks.memorydates.presenter;
 
+import com.gmail.lusersks.memorydates.model.EventsModel;
 import com.gmail.lusersks.memorydates.model.Model;
 import com.gmail.lusersks.memorydates.view.IView;
 
@@ -24,6 +25,7 @@ public class EventsPresenter implements Presenter {
         }
 
         subscription = model.retrieveInfo().observeOn(AndroidSchedulers.mainThread()).subscribe(data -> {
+            System.out.println("### data: " + data);
             if (data != null && !data.isEmpty()) {
                 view.showList(data);
             } else {
