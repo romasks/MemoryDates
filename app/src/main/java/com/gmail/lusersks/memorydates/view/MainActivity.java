@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements IView {
 
     @Override
     public void showError(String error) {
+        someText.setText(error);
         makeToast(error);
     }
 
@@ -89,5 +90,6 @@ public class MainActivity extends AppCompatActivity implements IView {
         System.out.println("### day: " + eventsDay);
         System.out.println("### month: " + eventsMonth);
         presenter = new EventsPresenter(new EventsModel(eventsMonth, eventsDay), this);
+        presenter.loadEvents();
     }
 }

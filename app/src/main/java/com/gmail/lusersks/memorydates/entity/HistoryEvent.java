@@ -2,6 +2,7 @@ package com.gmail.lusersks.memorydates.entity;
 
 public class HistoryEvent {
 
+    private Integer id;
     private String type;
     private String name;
     private String description;
@@ -9,6 +10,6 @@ public class HistoryEvent {
 
     @Override
     public String toString() {
-        return "{ type: " + type + ", name: " + name + ", description: " + description + ", date: " + date + " }";
+        return "{ " + id + ". type: " + type + ", name: " + name + ", description: " + description + ", date: " + date + " }";
     }
 }

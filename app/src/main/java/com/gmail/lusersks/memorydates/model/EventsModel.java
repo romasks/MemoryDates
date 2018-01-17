@@ -20,7 +20,6 @@ public class EventsModel implements Model {
         this.month = month;
         this.day = day;
         this.api = buildApiService();
-        System.out.println("### api: " + api);
     }
 
     private GithubService buildApiService() {
