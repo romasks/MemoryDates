@@ -10,6 +10,6 @@ public interface GithubService {
 
     // https://raw.githubusercontent.com/romasks/memory-dates-data/master/07/27.json
 
-    @GET("romasks/memory-dates-data/master/{month}/{day}.json")
+    @GET("romasks/memory-dates-data/master/{month}/{day}/events.json")
     Observable<List<HistoryEvent>> getEvents(@Path("month") String month, @Path("day") String day);
 }
