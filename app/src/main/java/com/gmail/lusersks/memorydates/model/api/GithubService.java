@@ -1,4 +1,6 @@
-package com.gmail.lusersks.memorydates.entity;
+package com.gmail.lusersks.memorydates.model.api;
+
+import com.gmail.lusersks.memorydates.entity.HistoryEvent;
 
 import java.util.List;
 
