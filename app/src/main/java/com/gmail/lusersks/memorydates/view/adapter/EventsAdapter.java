@@ -55,7 +55,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         return list;
     }
 
-    public void setList(List<HistoryEvent> data) {
+    public void setData(List<HistoryEvent> data) {
         list.addAll(data);
     }
 

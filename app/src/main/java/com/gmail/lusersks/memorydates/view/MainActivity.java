@@ -1,7 +1,10 @@
 package com.gmail.lusersks.memorydates.view;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +17,8 @@ import com.gmail.lusersks.memorydates.entity.HistoryEvent;
 import com.gmail.lusersks.memorydates.model.EventsModel;
 import com.gmail.lusersks.memorydates.presenter.EventsPresenter;
 import com.gmail.lusersks.memorydates.presenter.Presenter;
+import com.gmail.lusersks.memorydates.view.adapter.EventsAdapter;
 
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements IView {
     @BindView(R.id.events_list)
     RecyclerView eventsList;
 
+    private EventsAdapter adapter;
     private Presenter presenter;
     private String eventsDay;
     private String eventsMonth;
@@ -44,10 +48,11 @@ public class MainActivity extends AppCompatActivity implements IView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initRecyclerView();
 
         eventsCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 System.out.println("### day: " + dayOfMonth);
                 System.out.println("### month: " + month);
                 eventsDay = String.valueOf(dayOfMonth);
@@ -56,14 +61,25 @@ public class MainActivity extends AppCompatActivity implements IView {
         });
     }
 
+    private void initRecyclerView() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.events_list);
+        adapter = new EventsAdapter(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void showList(List<HistoryEvent> eventsList) {
-        String msg = "";
+        StringBuilder msg = new StringBuilder();
         for (HistoryEvent event : eventsList) {
             System.out.println("### History Event: " + event.toString());
-            msg += event.toString() + '\n';
+            msg.append(event.toString()).append('\n');
         }
-        someText.setText(msg);
+        someText.setText(msg.toString());
+
+        adapter.setData(eventsList);
     }
 
     @Override
@@ -78,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements IView {
     }
 
     @Override
-    public String getHistoryEvents() {
-        return null;
+    public List<HistoryEvent> getHistoryEvents() {
+        return adapter.getData();
     }
 
     private void makeToast(String message) {

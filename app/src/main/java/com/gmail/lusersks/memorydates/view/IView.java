@@ -8,5 +8,5 @@ public interface IView {
     void showList(List<HistoryEvent> eventsList);
     void showError(String Error);
     void showEmptyList();
-    String getHistoryEvents();
+    List<HistoryEvent> getHistoryEvents();
 }
