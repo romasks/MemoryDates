@@ -1,15 +1,12 @@
 package com.gmail.lusersks.memorydates.view;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gmail.lusersks.memorydates.R;
@@ -32,13 +29,11 @@ public class MainActivity extends AppCompatActivity implements IView {
     @BindView(R.id.load_events_button)
     Button loadEventsButton;
 
-    @BindView(R.id.some_text)
-    TextView someText;
-
     @BindView(R.id.events_list)
     RecyclerView eventsList;
 
-    private EventsAdapter adapter;
+    private RecyclerView recyclerView;
+    private EventsAdapter eventsAdapter;
     private Presenter presenter;
     private String eventsDay;
     private String eventsMonth;
@@ -50,41 +45,44 @@ public class MainActivity extends AppCompatActivity implements IView {
         ButterKnife.bind(this);
         initRecyclerView();
 
-        eventsCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                System.out.println("### day: " + dayOfMonth);
-                System.out.println("### month: " + month);
-                eventsDay = String.valueOf(dayOfMonth);
-                eventsMonth = (month < 10 ? "0" : "") + String.valueOf(month + 1);
-            }
+        eventsCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            System.out.println("### day: " + dayOfMonth);
+            System.out.println("### month: " + month);
+            eventsDay = String.valueOf(dayOfMonth);
+            eventsMonth = (month < 10 ? "0" : "") + String.valueOf(month + 1);
+            loadEvents(view);
         });
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.events_list);
-        adapter = new EventsAdapter(this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        System.out.println("### initRecyclerView");
+
+        recyclerView = findViewById(R.id.events_list);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        eventsAdapter = new EventsAdapter(this);
+        recyclerView.setAdapter(eventsAdapter);
+
+        System.out.println("### eventsAdapter: " + eventsAdapter);
+        System.out.println("### eventsList: " + recyclerView);
     }
 
     @Override
     public void showList(List<HistoryEvent> eventsList) {
-        StringBuilder msg = new StringBuilder();
-        for (HistoryEvent event : eventsList) {
-            System.out.println("### History Event: " + event.toString());
-            msg.append(event.toString()).append('\n');
-        }
-        someText.setText(msg.toString());
+        System.out.println("### eventsList: " + eventsList);
 
-        adapter.setData(eventsList);
+        eventsAdapter.setData(eventsList);
+        recyclerView.setAdapter(eventsAdapter);
     }
 
     @Override
     public void showError(String error) {
-        someText.setText(error);
         makeToast(error);
     }
 
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements IView {
 
     @Override
     public List<HistoryEvent> getHistoryEvents() {
-        return adapter.getData();
+        return eventsAdapter.getData();
     }
 
     private void makeToast(String message) {

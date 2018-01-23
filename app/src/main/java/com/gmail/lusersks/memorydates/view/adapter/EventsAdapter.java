@@ -1,8 +1,6 @@
 package com.gmail.lusersks.memorydates.view.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,33 +15,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsViewHolder> {
-    private final List<HistoryEvent> list;
+    private final List<HistoryEvent> list = new ArrayList<>();
     private final Activity activity;
 
     public EventsAdapter(Activity activity) {
-        list = new ArrayList<>();
+        System.out.println("### EventsAdapter constructor");
         this.activity = activity;
     }
 
     @Override
-    public EventsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+    public EventsAdapter.EventsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        System.out.println("### onCreateViewHolder");
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_row_events, parent, false);
-        return new EventsAdapter.EventsViewHolder(itemView);
+        return new EventsAdapter.EventsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(EventsViewHolder holder, int position) {
+    public void onBindViewHolder(EventsAdapter.EventsViewHolder holder, int position) {
+        System.out.println("### onBindViewHolder");
         HistoryEvent event = list.get(position);
         holder.name.setText(event.getName());
         holder.description.setText(event.getDescription());
         holder.type.setText(event.getType());
 
-        holder.cardView.setOnClickListener(v -> {
+        /*holder.cardView.setOnClickListener(v -> {
             Uri uri = Uri.parse(list.get(position).getUrl());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             activity.startActivity(intent);
-        });
+        });*/
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     @Override
@@ -56,7 +61,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     }
 
     public void setData(List<HistoryEvent> data) {
+        list.clear();
         list.addAll(data);
+        System.out.println("### list: " + list);
     }
 
     class EventsViewHolder extends RecyclerView.ViewHolder {
@@ -65,10 +72,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
 
         EventsViewHolder(View view) {
             super(view);
-            cardView    = (CardView) view.findViewById(R.id.events_card_view);
-            name        = (TextView) view.findViewById(R.id.event_name);
-            description = (TextView) view.findViewById(R.id.event_description);
-            type        = (TextView) view.findViewById(R.id.event_type);
+            cardView    = view.findViewById(R.id.events_card_view);
+            name        = view.findViewById(R.id.event_name);
+            description = view.findViewById(R.id.event_description);
+            type        = view.findViewById(R.id.event_type);
         }
     }
 }
