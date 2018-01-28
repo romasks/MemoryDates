@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gmail.lusersks.memorydates.R;
 import com.gmail.lusersks.memorydates.entity.HistoryEvent;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         holder.name.setText(event.getName());
         holder.description.setText(event.getDescription());
         holder.type.setText(event.getType());
+        Picasso.with(activity).load(event.getImage()).into(holder.image);
 
         /*holder.cardView.setOnClickListener(v -> {
             Uri uri = Uri.parse(list.get(position).getUrl());
@@ -67,8 +70,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
     }
 
     class EventsViewHolder extends RecyclerView.ViewHolder {
-        TextView name, description, type;
-        CardView cardView;
+        TextView  name, description, type;
+        ImageView image;
+        CardView  cardView;
 
         EventsViewHolder(View view) {
             super(view);
@@ -76,6 +80,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
             name        = view.findViewById(R.id.event_name);
             description = view.findViewById(R.id.event_description);
             type        = view.findViewById(R.id.event_type);
+            image       = view.findViewById(R.id.event_image);
         }
     }
 }

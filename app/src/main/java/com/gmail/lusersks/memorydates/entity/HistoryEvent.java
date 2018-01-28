@@ -10,8 +10,8 @@ public class HistoryEvent {
     private String description;
     private String date;
 
-    @SerializedName("html_url")
-    private String url;
+    @SerializedName("image_url")
+    private String image;
 
     @Override
     public String toString() {
@@ -30,7 +30,7 @@ public class HistoryEvent {
         return description;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImage() {
+        return image;
     }
 }
