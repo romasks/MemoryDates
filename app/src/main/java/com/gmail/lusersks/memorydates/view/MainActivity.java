@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -16,7 +17,6 @@ import com.gmail.lusersks.memorydates.R;
 import com.gmail.lusersks.memorydates.entity.HistoryEvent;
 import com.gmail.lusersks.memorydates.model.EventsModel;
 import com.gmail.lusersks.memorydates.presenter.EventsPresenter;
-import com.gmail.lusersks.memorydates.presenter.Presenter;
 import com.gmail.lusersks.memorydates.view.adapter.EventsAdapter;
 
 import java.util.ArrayList;

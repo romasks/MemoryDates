@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -82,11 +83,20 @@
                 android:textStyle="bold"
                 tools:text="Type"/>
 
+            <ImageView
+                android:id="@+id/event_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_name"
+                app:srcCompat="@drawable/avatar_2"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
             <TextView
                 android:id="@+id/event_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/event_name"
+                android:layout_below="@+id/event_image"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 tools:text="description"/>
