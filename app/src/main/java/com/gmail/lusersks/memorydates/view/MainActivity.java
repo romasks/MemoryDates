@@ -1,5 +1,7 @@
 package com.gmail.lusersks.memorydates.view;
 
+import android.app.DialogFragment;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import com.gmail.lusersks.memorydates.entity.HistoryEvent;
 import com.gmail.lusersks.memorydates.model.EventsModel;
 import com.gmail.lusersks.memorydates.presenter.EventsPresenter;
 import com.gmail.lusersks.memorydates.view.adapter.EventsAdapter;
+import com.gmail.lusersks.memorydates.view.dialog.DialogCalendarActionListener;
+import com.gmail.lusersks.memorydates.view.dialog.EventsCalendarDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +28,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements IView {
+public class MainActivity extends AppCompatActivity
+        implements IView, DialogCalendarActionListener {
 
     @BindView(R.id.layout_calendar)
     LinearLayout layoutCalendar;
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements IView {
     @BindView(R.id.events_list)
     RecyclerView eventsList;
 
+    private DialogFragment eventCalendarDialog;
     private RecyclerView recyclerView;
     private EventsAdapter eventsAdapter;
     private String eventsDay;
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initRecyclerView();
+        eventCalendarDialog = new EventsCalendarDialog();
 
         eventsCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             System.out.println("### day: " + dayOfMonth);
@@ -86,8 +92,9 @@ public class MainActivity extends AppCompatActivity implements IView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.tab_calendar:
-                layoutCalendar.setVisibility(View.VISIBLE);
-                eventsList.setVisibility(View.GONE);
+//                layoutCalendar.setVisibility(View.VISIBLE);
+//                eventsList.setVisibility(View.GONE);
+                eventCalendarDialog.show(getFragmentManager(), "Event Calendar Dialog");
                 break;
             default:
                 makeToast("Unknown ID");
@@ -134,5 +141,11 @@ public class MainActivity extends AppCompatActivity implements IView {
         new EventsPresenter(new EventsModel(eventsMonth, eventsDay), this).loadEvents();
         layoutCalendar.setVisibility(View.GONE);
         eventsList.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String dayOfMonth, String month) {
+        this.eventsDay = dayOfMonth;
+        this.eventsMonth = month;
     }
 }
