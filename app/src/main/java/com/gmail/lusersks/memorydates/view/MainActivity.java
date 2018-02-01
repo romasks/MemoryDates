@@ -1,17 +1,12 @@
 package com.gmail.lusersks.memorydates.view;
 
-import android.app.DialogFragment;
-import android.content.Intent;
+import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gmail.lusersks.memorydates.R;
@@ -19,35 +14,26 @@ import com.gmail.lusersks.memorydates.entity.HistoryEvent;
 import com.gmail.lusersks.memorydates.model.EventsModel;
 import com.gmail.lusersks.memorydates.presenter.EventsPresenter;
 import com.gmail.lusersks.memorydates.view.adapter.EventsAdapter;
-import com.gmail.lusersks.memorydates.view.dialog.DialogCalendarActionListener;
-import com.gmail.lusersks.memorydates.view.dialog.EventsCalendarDialog;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
-        implements IView, DialogCalendarActionListener {
-
-    @BindView(R.id.layout_calendar)
-    LinearLayout layoutCalendar;
-
-    @BindView(R.id.events_calendar)
-    CalendarView eventsCalendar;
-
-    @BindView(R.id.load_events_button)
-    Button loadEventsButton;
+public class MainActivity extends AppCompatActivity implements IView {
 
     @BindView(R.id.events_list)
     RecyclerView eventsList;
 
-    private DialogFragment eventCalendarDialog;
     private RecyclerView recyclerView;
     private EventsAdapter eventsAdapter;
     private String eventsDay;
     private String eventsMonth;
+
+    private Calendar date;
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +41,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initRecyclerView();
-        eventCalendarDialog = new EventsCalendarDialog();
+        setInitialDate();
+    }
 
-        eventsCalendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+    private void setInitialDate() {
+        date = Calendar.getInstance();
+        eventsDay = (date.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "") + String.valueOf(date.get(Calendar.DAY_OF_MONTH));
+        eventsMonth = (date.get(Calendar.MONTH) < 9 ? "0" : "") + String.valueOf(date.get(Calendar.MONTH) + 1);
+
+        dateSetListener = (datePicker, year, monthOfYear, dayOfMonth) -> {
             System.out.println("### day: " + dayOfMonth);
-            System.out.println("### month: " + month);
-            eventsDay = String.valueOf(dayOfMonth);
-            eventsMonth = (month < 10 ? "0" : "") + String.valueOf(month + 1);
-//            loadEvents(view);
-        });
+            System.out.println("### month: " + monthOfYear);
+            eventsDay = (dayOfMonth < 10 ? "0" : "") + String.valueOf(dayOfMonth);
+            eventsMonth = (monthOfYear < 9 ? "0" : "") + String.valueOf(monthOfYear + 1);
+            loadEvents();
+        };
     }
 
     private void initRecyclerView() {
@@ -92,9 +84,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.tab_calendar:
-//                layoutCalendar.setVisibility(View.VISIBLE);
-//                eventsList.setVisibility(View.GONE);
-                eventCalendarDialog.show(getFragmentManager(), "Event Calendar Dialog");
+                new DatePickerDialog(MainActivity.this, dateSetListener,
+                        date.get(Calendar.YEAR),
+                        date.get(Calendar.MONTH),
+                        date.get(Calendar.DAY_OF_MONTH))
+                        .show();
                 break;
             default:
                 makeToast("Unknown ID");
@@ -135,17 +129,10 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void loadEvents(View view) {
+//    public void loadEvents(View view) {
+    public void loadEvents() {
         System.out.println("### day: " + eventsDay);
         System.out.println("### month: " + eventsMonth);
         new EventsPresenter(new EventsModel(eventsMonth, eventsDay), this).loadEvents();
-        layoutCalendar.setVisibility(View.GONE);
-        eventsList.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog, String dayOfMonth, String month) {
-        this.eventsDay = dayOfMonth;
-        this.eventsMonth = month;
     }
 }
