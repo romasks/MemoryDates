@@ -1,6 +1,7 @@
 package com.gmail.lusersks.memorydates.view.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.gmail.lusersks.memorydates.R;
 import com.gmail.lusersks.memorydates.entity.HistoryEvent;
+import com.gmail.lusersks.memorydates.view.EventActivity;
+import com.gmail.lusersks.memorydates.view.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,11 +45,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsView
         holder.type.setText(event.getType());
         Picasso.with(activity).load(event.getImage()).into(holder.image);
 
-        /*holder.cardView.setOnClickListener(v -> {
-            Uri uri = Uri.parse(list.get(position).getUrl());
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        holder.cardView.setOnClickListener(view -> {
+            Intent intent = new Intent(activity, EventActivity.class);
+            intent.putExtra("name", event.getName());
+            intent.putExtra("image", event.getImage());
+            intent.putExtra("description", event.getDescription());
             activity.startActivity(intent);
-        });*/
+        });
     }
 
     @Override
