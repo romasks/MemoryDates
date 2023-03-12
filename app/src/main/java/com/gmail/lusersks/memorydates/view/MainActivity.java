@@ -1,13 +1,14 @@
 package com.gmail.lusersks.memorydates.view;
 
 import android.app.DatePickerDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.lusersks.memorydates.R;
 import com.gmail.lusersks.memorydates.entity.HistoryEvent;
